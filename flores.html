@@ -1,0 +1,709 @@
+﻿
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Esmeralda 🌻🎀</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .pantalla {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* PORTADA */
+        .portada {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            background: linear-gradient(rgba(30,15,5,.35),rgba(30,15,5,.55)), url("Fondo hello kitty.jpg") center/cover;
+            transition: opacity 1.5s ease, transform 1.5s ease;
+            z-index: 10;
+        }
+
+        .contenido-portada {
+            padding: 30px;
+            animation: aparecer 2s ease;
+        }
+
+        .flor-icono {
+            font-size: 75px;
+            animation: flotar 3s infinite;
+        }
+
+        .contenido-portada h1 {
+            font-size: clamp(35px, 6vw, 65px);
+            margin-top: 15px;
+            color: #ffe66d;
+            text-shadow: 0 0 15px #000;
+        }
+
+        .subtitulo {
+            margin-top: 15px;
+            font-size: 19px;
+            color: white;
+        }
+
+        .dedicatoria {
+            margin-top: 40px;
+            font-size: 18px;
+        }
+
+        .contenido-portada h2 {
+            margin-top: 10px;
+            font-size: 30px;
+            color: #ffacd0;
+        }
+
+        #btnAbrir {
+            margin-top: 30px;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 40px;
+            background: #ffd83d;
+            color: #3b2700;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+            #btnAbrir:hover {
+                transform: scale(1.08);
+                box-shadow: 0 0 25px #ffd83d;
+            }
+
+        .portada.salir {
+            opacity: 0;
+            transform: scale(1.15);
+            pointer-events: none;
+        }
+
+        /* ESCENA PRINCIPAL */
+        .escena {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            background: linear-gradient(rgba(34,12,39,.48),rgba(34,12,39,.62)), url("Fondo hello kitty.jpg") center center/cover no-repeat;
+        }
+
+        .oculto {
+            display: none;
+        }
+
+        .cielo {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient( circle at 50% 12%, rgba(255,255,255,.12), transparent 35% );
+        }
+
+        .luna {
+            position: absolute;
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            background: #fff6c7;
+            top: 6%;
+            right: 10%;
+            box-shadow: 0 0 40px #fff6c7;
+        }
+
+        .estrellas::before {
+            content: "✦   ·     ✧       ·    ✦       ·       ✧";
+            position: absolute;
+            top: 5%;
+            left: 5%;
+            width: 90%;
+            color: white;
+            font-size: 20px;
+            letter-spacing: 25px;
+            opacity: .6;
+            animation: estrellas 5s infinite alternate;
+        }
+
+        .fecha-top {
+            position: absolute;
+            top: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffd8a8;
+            font-size: 16px;
+            letter-spacing: 3px;
+            z-index: 20;
+        }
+
+        /* CORAZÓN DE GIRASOLES */
+        #corazon-container {
+            position: absolute;
+            top: 53%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(94vw, 800px);
+            height: min(82vh, 650px);
+            z-index: 15;
+        }
+
+        .flor-head {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            animation: latido 2.6s ease-in-out infinite;
+        }
+
+            .flor-head svg {
+                width: 100%;
+                height: auto;
+                display: block;
+                filter: drop-shadow(0 3px 4px rgba(0,0,0,.35));
+            }
+
+        /* MENSAJE CENTRAL */
+        .mensaje-centro {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%;
+            max-width: 380px;
+            padding: 12px 15px;
+            text-align: center;
+            color: white;
+            z-index: 30;
+            border: 2px solid #ffacd0;
+            border-radius: 22px;
+            background: rgba(43,17,49,.78);
+            box-shadow: 0 0 22px rgba(255,172,208,.35);
+            backdrop-filter: blur(4px);
+            animation: aparecerMensaje 3s ease;
+            pointer-events: none;
+        }
+
+            .mensaje-centro h1 {
+                font-size: clamp(18px, 3vw, 26px);
+                color: #ffacd0;
+                text-shadow: 0 0 12px #ffacd0;
+            }
+
+        /* FOTOGRAFÍA */
+        .foto-esmeralda {
+            width: 112px;
+            height: 112px;
+            margin: 9px auto;
+            padding: 4px;
+            border: 3px solid #ffacd0;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 0 18px #ffacd0;
+            overflow: hidden;
+        }
+
+            .foto-esmeralda img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center 35%;
+                border-radius: 50%;
+                display: block;
+            }
+
+        .mensaje-centro h2 {
+            margin-top: 5px;
+            color: #ffe27a;
+            font-size: clamp(14px, 2vw, 19px);
+        }
+
+        .mensaje-centro p {
+            margin-top: 10px;
+            font-size: clamp(11px, 1.6vw, 14px);
+            line-height: 1.5;
+            color: #fff0f7;
+        }
+
+        .mensaje-centro .nombre {
+            color: #ffacd0;
+            font-weight: bold;
+            margin-top: 12px;
+        }
+
+        /* PÉTALOS CAYENDO */
+        .petalos span {
+            position: absolute;
+            top: -50px;
+            width: 14px;
+            height: 20px;
+            z-index: 25;
+            background: linear-gradient(#ffe27a,#f2a007);
+            border-radius: 50% 0 50% 50%;
+            animation: caer linear infinite;
+        }
+
+            .petalos span:nth-child(1) {
+                left: 10%;
+                animation-duration: 8s;
+            }
+
+            .petalos span:nth-child(2) {
+                left: 25%;
+                animation-duration: 10s;
+                animation-delay: 2s;
+            }
+
+            .petalos span:nth-child(3) {
+                left: 40%;
+                animation-duration: 7s;
+                animation-delay: 4s;
+            }
+
+            .petalos span:nth-child(4) {
+                left: 60%;
+                animation-duration: 9s;
+                animation-delay: 1s;
+            }
+
+            .petalos span:nth-child(5) {
+                left: 75%;
+                animation-duration: 11s;
+                animation-delay: 3s;
+            }
+
+            .petalos span:nth-child(6) {
+                left: 90%;
+                animation-duration: 8s;
+                animation-delay: 5s;
+            }
+
+        /* BOTÓN DE MÚSICA */
+        .boton-musica {
+            position: absolute;
+            right: 25px;
+            bottom: 25px;
+            z-index: 50;
+            padding: 12px 20px;
+            border: 1px solid #ffacd0;
+            border-radius: 25px;
+            background: rgba(255,172,208,.25);
+            color: white;
+            cursor: pointer;
+        }
+
+        /* ANIMACIONES */
+        @keyframes latido {
+            0%,100% {
+                transform: translate(-50%,-50%) scale(1);
+            }
+
+            50% {
+                transform: translate(-50%,-50%) scale(1.05);
+            }
+        }
+
+        @keyframes caer {
+            0% {
+                transform: translateY(-50px) rotate(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateY(50vh) translateX(80px) rotate(180deg);
+            }
+
+            100% {
+                transform: translateY(110vh) translateX(-80px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes flotar {
+            0%,100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        @keyframes aparecerMensaje {
+            from {
+                opacity: 0;
+                transform: translate(-50%,-50%) translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%,-50%) translateY(0);
+            }
+        }
+
+        @keyframes estrellas {
+            from {
+                opacity: .3;
+            }
+
+            to {
+                opacity: .8;
+            }
+        }
+
+        /* CELULARES */
+        @media (max-width:600px) {
+            .contenido-portada h1 {
+                font-size: 38px;
+            }
+
+            #corazon-container {
+                width: 96vw;
+                height: 70vh;
+            }
+
+            .mensaje-centro {
+                width: 82%;
+                padding: 9px 10px;
+            }
+
+            .foto-esmeralda {
+                width: 88px;
+                height: 88px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SVG DE LOS GIRASOLES -->
+    <svg width="0" height="0" style="position:absolute">
+        <defs>
+
+            <linearGradient id="petalGradBack" x1="0" y1="1" x2="0" y2="0">
+                <stop offset="0%" stop-color="#e8930f" />
+                <stop offset="45%" stop-color="#f7b418" />
+                <stop offset="100%" stop-color="#ffd75c" />
+            </linearGradient>
+
+            <linearGradient id="petalGradFront" x1="0" y1="1" x2="0" y2="0">
+                <stop offset="0%" stop-color="#ffcb2e" />
+                <stop offset="50%" stop-color="#ffe27a" />
+                <stop offset="100%" stop-color="#fff3c4" />
+            </linearGradient>
+
+            <radialGradient id="centerGrad">
+                <stop offset="0%" stop-color="#8a5a2a" />
+                <stop offset="45%" stop-color="#6b3f1c" />
+                <stop offset="100%" stop-color="#301a0a" />
+            </radialGradient>
+
+            <pattern id="seedPattern" width="6.5" height="6.5"
+                     patternUnits="userSpaceOnUse">
+                <circle cx="3.25" cy="3.25" r="1.35" fill="#201106" />
+                <circle cx="0" cy="0" r="1.35" fill="#201106" />
+                <circle cx="6.5" cy="0" r="1.35" fill="#201106" />
+            </pattern>
+
+            <path id="petalShapeBack"
+                  d="M100,100 C80,88 76,48 92,16 C95,7 105,7 108,16 C124,48 120,88 100,100 Z" />
+
+            <path id="petalShapeFront"
+                  d="M100,100 C86,90 83,54 96,20 C98,11 102,11 104,20 C117,54 114,90 100,100 Z" />
+
+            <g id="petalBack">
+                <use href="#petalShapeBack" fill="url(#petalGradBack)"
+                     stroke="#c97f10" stroke-width=".5" />
+            </g>
+
+            <g id="petalFront">
+                <use href="#petalShapeFront" fill="url(#petalGradFront)"
+                     stroke="#e6ab1c" stroke-width=".4" />
+            </g>
+
+            <symbol id="sunflowerHead" viewBox="0 0 200 200">
+
+                <use href="#petalBack" />
+                <use href="#petalBack" transform="rotate(28 100 100)" />
+                <use href="#petalBack" transform="rotate(58 100 100)" />
+                <use href="#petalBack" transform="rotate(89 100 100)" />
+                <use href="#petalBack" transform="rotate(122 100 100)" />
+                <use href="#petalBack" transform="rotate(150 100 100)" />
+                <use href="#petalBack" transform="rotate(181 100 100)" />
+                <use href="#petalBack" transform="rotate(209 100 100)" />
+                <use href="#petalBack" transform="rotate(241 100 100)" />
+                <use href="#petalBack" transform="rotate(271 100 100)" />
+                <use href="#petalBack" transform="rotate(300 100 100)" />
+                <use href="#petalBack" transform="rotate(330 100 100)" />
+
+                <use href="#petalFront" transform="rotate(14 100 100)" />
+                <use href="#petalFront" transform="rotate(42 100 100)" />
+                <use href="#petalFront" transform="rotate(73 100 100)" />
+                <use href="#petalFront" transform="rotate(104 100 100)" />
+                <use href="#petalFront" transform="rotate(136 100 100)" />
+                <use href="#petalFront" transform="rotate(165 100 100)" />
+                <use href="#petalFront" transform="rotate(195 100 100)" />
+                <use href="#petalFront" transform="rotate(224 100 100)" />
+                <use href="#petalFront" transform="rotate(255 100 100)" />
+                <use href="#petalFront" transform="rotate(286 100 100)" />
+                <use href="#petalFront" transform="rotate(315 100 100)" />
+                <use href="#petalFront" transform="rotate(345 100 100)" />
+
+                <circle cx="100" cy="100" r="34" fill="url(#centerGrad)" />
+                <circle cx="100" cy="100" r="34"
+                        fill="url(#seedPattern)" opacity=".65" />
+
+            </symbol>
+        </defs>
+    </svg>
+
+    <!-- PORTADA -->
+    <section id="portada" class="pantalla portada">
+
+        <div class="contenido-portada">
+
+            <div class="flor-icono">🌻</div>
+
+            <h1>Para Esmeralda</h1>
+
+            <p class="subtitulo">
+                Tengo algo preparado para ti...
+            </p>
+
+            <p class="dedicatoria">
+                Este pequeño detalle es para
+            </p>
+
+            <h2>🎀 Esmeralda 🎀</h2>
+
+            <button id="btnAbrir">
+                Abrir mi regalo 🌻
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- ESCENA PRINCIPAL -->
+    <section id="escena" class="pantalla escena oculto">
+
+        <div class="cielo"></div>
+        <div class="luna"></div>
+        <div class="estrellas"></div>
+
+        <p class="fecha-top">21 de septiembre 🌻</p>
+
+        <div id="corazon-container">
+
+            <!-- FOTO Y DEDICATORIA -->
+            <div class="mensaje-centro">
+
+                <h1>🎀 Esmeralda 🎀</h1>
+
+                <div class="foto-esmeralda">
+                    <img src="esmeralda.jpeg"
+                         alt="Foto de Esmeralda">
+                </div>
+
+                <h2>Unas flores para ti 🌻</h2>
+
+                <p>
+                    Quería regalarte este pequeño detalle
+                    para recordarte lo especial que eres.
+                    Espero que estas flores te saquen
+                    una sonrisa y que nunca te falten
+                    motivos para ser feliz.
+                </p>
+
+                <p class="nombre">
+                    Con mucho cariño 💗
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- PÉTALOS -->
+        <div class="petalos">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <!-- MÚSICA -->
+        <button id="btnMusica" class="boton-musica">
+            🔊 Música
+        </button>
+
+        <audio id="musica" loop src="flor.mp3"></audio>
+
+    </section>
+
+    <script>
+
+const btnAbrir = document.getElementById("btnAbrir");
+const portada = document.getElementById("portada");
+const escena = document.getElementById("escena");
+const musica = document.getElementById("musica");
+const btnMusica = document.getElementById("btnMusica");
+const contenedor = document.getElementById("corazon-container");
+
+/* GENERAR EL CORAZÓN */
+
+function heartPoint(t) {
+
+            const x = 16 * Math.pow(Math.sin(t), 3);
+
+            const y =
+                13 * Math.cos(t)
+                - 5 * Math.cos(2 * t)
+                - 2 * Math.cos(3 * t)
+                - Math.cos(4 * t);
+
+            return { x, y };
+}
+
+let minX = Infinity;
+let maxX = -Infinity;
+let minY = Infinity;
+let maxY = -Infinity;
+
+for (let i = 0; i < 200; i++) {
+
+            const t = (i / 200) * Math.PI * 2;
+            const p = heartPoint(t);
+
+            minX = Math.min(minX, p.x);
+            maxX = Math.max(maxX, p.x);
+            minY = Math.min(minY, p.y);
+            maxY = Math.max(maxY, p.y);
+
+}
+
+function toPercent(x, y) {
+
+            const nx = (x - minX) / (maxX - minX);
+            const ny = (y - minY) / (maxY - minY);
+
+            return {
+                px: 6 + nx * 88,
+                py: 4 + (1 - ny) * 92
+            };
+
+}
+
+function addFlower(x, y, size, delay) {
+
+            const { px, py } = toPercent(x, y);
+
+            const div = document.createElement("div");
+
+            div.className = "flor-head";
+            div.style.left = px + "%";
+            div.style.top = py + "%";
+            div.style.width = size + "px";
+            div.style.animationDelay = delay + "s";
+
+            div.innerHTML = `
+                <svg viewBox="0 0 200 200">
+                    <use href="#sunflowerHead"></use>
+                </svg>
+            `;
+
+            contenedor.appendChild(div);
+
+}
+
+/* CREAR LOS 46 GIRASOLES */
+
+const outlineCount = 46;
+
+for (let i = 0; i < outlineCount; i++) {
+
+            const t = (i / outlineCount) * Math.PI * 2;
+            const p = heartPoint(t);
+
+            const size = 38 + Math.random() * 14;
+
+            addFlower(
+                p.x,
+                p.y,
+                size,
+                Math.random() * 2
+            );
+
+}
+
+/* ABRIR EL REGALO */
+
+btnAbrir.addEventListener("click", function() {
+
+            portada.classList.add("salir");
+
+            escena.classList.remove("oculto");
+
+            musica.play().catch(function() {
+                console.log("No se pudo reproducir la música.");
+            });
+
+            setTimeout(function() {
+                portada.style.display = "none";
+            }, 1500);
+
+});
+
+/* CONTROL DE MÚSICA */
+
+btnMusica.addEventListener("click", function() {
+
+            if (musica.paused) {
+
+                musica.play().catch(function() {
+                    alert("No se pudo reproducir la música. Revisa el archivo flor.mp3.");
+                });
+
+                btnMusica.textContent = "🔊 Música";
+
+            } else {
+
+                musica.pause();
+                btnMusica.textContent = "🔇 Música";
+
+            }
+
+});
+
+    </script>
+
+</body>
+</html>
